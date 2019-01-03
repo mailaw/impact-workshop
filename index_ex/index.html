@@ -1,0 +1,93 @@
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <link rel="stylesheet" src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" />
+    </head>
+    <body>
+        <h1>Hello</h1>
+        <div id="root" class="container"></div>
+        <div id="yam" class="container"></div>
+        <!----script needs to be below root if will be accessed-->
+        <script>
+            const User = ({user}) => {
+                return React.createElement('li', {className: 'list-group-item'}, user.name);
+            }
+            const Users = ({users}) => {
+                //go through the users by using map function
+                //each child in the list needs a unique key property 
+                //make the key the id of the user
+                const listItems = users.map(user => React.createElement(User, {key: user.id, user}));
+                return React.createElement('ul', {className: 'list-group'}, listItems);
+            }
+            const App = ({users}) => {
+                //console.log(props.users); desctructure & avoid using . by passing in users to App instead of props
+                return React.createElement(Users, {users});
+            }
+            
+            const users = [
+                { id: 1, name: 'Lydia'},
+                { id : 2, name: 'Jun'},
+                { id : 3, name: 'Malik'},
+            ];
+            
+            const root = document.getElementById('root');
+            ReactDOM.render(React.createElement(App, {users}), root);
+            
+        </script>
+
+        <script type="text/babel">
+
+            const Friend = ({ name, place }) => <p> {name} {place}</p>;
+
+            class Text extends React.Component{
+                constructor(){
+                    super();
+                    //can only assign state in a constructor
+                    //state is merely a key-value object type deAL 
+                    this.state = {
+                        name: 'Moe' //could jsuit be name if name was defined elsewhere as list 
+                    };
+                }
+
+                //another lifecycle method is componentDidMount
+                /*componentDidMount(){
+                    setTimeout(()=>{ //this timeout is good to have delay on the change 
+                        //if the const name were a list of names....
+                        //what this does is push another name to the list with lydia
+                        const name = [...this.state.name,{name: "lydia"}];
+
+                        //if want to change your state
+                        //once component mounts, the name lydia is added to the state and names are updated
+                        this.setState({name});
+                    },500);
+                }*/
+
+                render(){
+                    const {place} = this.props;
+                    const {name} = this.state;
+                    return (
+                        <div>
+                            <h1>2nd app with babel</h1>
+                            <Friend name={name} place={place} />
+                        </div>
+                    );
+                }
+            }
+
+            /*const Text = ({name}) => {
+                return (
+                    <div>
+                        <h1>2nd app with babel</h1>
+                        <Friend name={ name } />
+                    </div>
+                );
+            }*/
+            const yam = document.getElementById('yam');
+
+            //Hard coding a prop to pass down 
+            ReactDOM.render(<Text place="CH" />, yam);
+        </script>
+    </body>
+</html>

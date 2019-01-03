@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css' />
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  </head>
+  <body>
+    <div id='root' class='container'></div>
+  <script type='text/babel'>
+    const Title = ({ title })=> <h1>{ title }</h1>;
+    const User = ({ user })=> {
+      return (
+        <li className='list-group-item'>
+          { user.name }
+        </li>
+      );
+    };
+    const Users = ({ users })=> {
+      return (
+        <ul className='list-group'>
+          {
+            users.map( user => <User key={ user.id } user={ user } />) 
+          }
+        </ul>
+      );
+    };
+    class App extends React.Component{
+      constructor(props){
+        super(props);
+        this.state = {
+          users : users
+        }; 
+      }
+      componentDidMount(){
+        setTimeout(()=> {
+          const users = [...this.state.users, { id: 4, name: 'elaine'}];
+          this.setState({ users });
+        }, 500);
+      }
+      render(){
+        const { title } = this.props;
+        const { users } = this.state;
+        return ( 
+          <div>
+            <Title title={ title }/>
+            <Users users={ users } />
+          </div>
+        );
+      }   
+    }
+/*
+    const App = ({ title, users })=> {
+      return (
+        <div>
+          <Title title={ title }/>
+          <Users users={ users } />
+        </div>
+      );
+    }
+*/
+    const users = [
+      { id: 1, name: 'Jerry' },
+      { id: 2, name: 'Kramer' },
+      { id: 3, name: 'George' },
+    ];
+    const root = document.getElementById('root');
+    ReactDOM.render(<App title='My GreatApp'/>, root);
+  </script>
+  </body>
+</html>
